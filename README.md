@@ -7,7 +7,7 @@ npm install supergulp --save
 ```
 
 ### Quick Taste
-Have you ever had a gulpfile that is way too overstuffed with tasks, logic, and configuration? Enter *Supergulp*, the tool that takes Gulp through a new paradigm. The idea is to break your gulp task logic into distinct javascript files each with only the dependencies they need, and without worrying about input or output configuration. You provide a configuration file path, and supergulp injects the configuration into each task it finds in the '/gulp' directory. Suddenly, all your gulp tasks and pipelines are more portable, easier to understand and debug, and less reliant on baked-in configuration. **Let's get cookin'.**
+Ever had a gulpfile that got way too overstuffed with tasks, logic, and configuration? Enter *Supergulp*, the tool that takes Gulp through a new paradigm. The idea is to break your gulp task logic into distinct javascript files each with only the dependencies they need, and without worrying about input or output configuration. You provide a configuration file path, and supergulp injects the configuration into each task it finds in the '/gulp' directory. Suddenly, all your gulp tasks and pipelines are more portable, easier to understand and debug, and less reliant on baked-in configuration. **Let's get cookin'.**
 
 ```js
 /* file: gulpfile.js */
