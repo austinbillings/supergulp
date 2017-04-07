@@ -17,18 +17,23 @@ supergulp();
 
 With custom settings (the defaults are shown)
 ```js
+/* file: gulpfile.js */
 const supergulp = require('supergulp');
-supergulp({ tasks: './gulp/', config: './gulp.config.js' });
+
+let tasks = './gulp/';
+let config = './gulp.config.js';
+
+supergulp({ tasks, config });
 ```
 
 Super minimal:
 ```js
-// super-minimal:
+/* file: gulpfile.js */
 require('supergulp')();
 ```
-*Crazy, right? That's all your gulpfile needs to contain.*
+*Crazy, right?*
 
-With the above as your `gulpfile.js`, imagine the following is your `gulp.config.js`:
+With the above as your `gulpfile.js`, the following might be `gulp.config.js`:
 
 ```js
 /* file: gulp.config.js */
