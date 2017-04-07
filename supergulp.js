@@ -14,7 +14,7 @@ module.exports = (_settings = {}) => {
   
   const Defaults = {
     tasks: path.join(__root, '/gulp/'),
-    config: './gulp.config.js'
+    config: path.join(__root, '/gulp.config.js')
   };
   
   let settings = _.defaults(_settings, Defaults);
