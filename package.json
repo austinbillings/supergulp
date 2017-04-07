@@ -1,0 +1,40 @@
+{
+  "name": "supergulp",
+  "version": "0.0.1",
+  "description": "Organize, separate, and decouple your gulptasks from your configuration.",
+  "main": "supergulp.js",
+  "scripts": {
+    "build": "uglifyjs supergulp.js -o supergulp.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/austinbillings/supergulp.git"
+  },
+  "keywords": [
+    "gulp",
+    "tasks",
+    "organize",
+    "manage",
+    "simplify",
+    "decouple",
+    "configure"
+  ],
+  "author": "Austin Billings <austin@austinbillings.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/austinbillings/supergulp/issues"
+  },
+  "homepage": "https://github.com/austinbillings/supergulp#readme",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "colleqtor": "^1.0.3",
+    "gulp": "^3.9.1",
+    "path": "^0.12.7",
+    "underscore": "^1.8.3",
+    "zaq": "^1.1.2"
+  },
+  "devDependencies": {
+    "uglify-js-es6": "^2.8.9"
+  }
+}
