@@ -94,16 +94,10 @@ Following these examples, we are able to run `gulp`, and both the 'compile-sass'
 
 ## Getting started
 
-First, your gulp tasks should be kept as separate javascript files in a directory of your choosing. By default, supergulp uses the `./gulp` directory based on wherever your gulpfile is. Each file containing a gulp task should use `module.exports` to export a function that takes three arguments:
-- `gulp`, the same instance of gulp that is passed to all the task files (Be sure **not** to `require('gulp')`)
-- `config`, a global configuration object of your design, which is exported by your config file (default: './gulp.config.js')
-- `hook`, an optional function which allows you to "hook" tasks into "task sets", for instance into your "default" gulp task. `hook` itself is a function that takes three arguments:
-  - `taskName`, a string or array of strings indicating the task to be "hooked",
+First, your gulp tasks should be kept as separate javascript files in a directory of your choosing. By default, supergulp uses the `./gulp` directory based on wherever your gulpfile is. Each file containing a gulp task should use `module.exports` to export a function that takes the following arguments:
+- `gulp`, (required) the same instance of gulp that is passed to all the task files (Be sure **not** to `require('gulp')`)
+- `config`, (optional, but recommended) a global configuration object of your design, which is exported by your config file (default: './gulp.config.js')
+- `hook`, (optional) a function which allows you to "hook" tasks into "task sets", for instance into your "default" gulp task. `hook` itself is a function that takes three arguments:
+  - `taskName`, a string or array of strings indicating the already-declared task to be "hooked",
   - `watch`, a glob pattern to "watch" and re-fire the given tasks when files are changed (default: `null`)
   - `set`, the name of the parent task/set of tasks to hook into. (default: `'default'`) Note that "sets" of tasks should not be explicitly declared with `gulp.task`, but are generated automatically by supergulp.
-
-### Usage
-```js
-
-
-```
