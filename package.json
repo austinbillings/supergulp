@@ -4,7 +4,6 @@
   "description": "Organize, separate, and decouple your gulptasks from your configuration.",
   "main": "supergulp.js",
   "scripts": {
-    "build": "uglifyjs supergulp.js -o supergulp.min.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,7 +13,7 @@
   "keywords": [
     "gulp",
     "tasks",
-    "organize",0
+    "organize",
     "manage",
     "simplify",
     "decouple",
