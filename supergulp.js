@@ -5,18 +5,18 @@ const chalk = require('chalk');
 const _ = require('underscore');
 const colleqtor = require('colleqtor');
 
-const shorten = (x) => _.map(x, (y) => path.relative(__dirname + '/..', y));
 const registry = [];
 const Hook = (taskName, watch, set = 'default') => registry.push({ taskName, watch, set });
 
 const Defaults = {
-  tasks: __dirname + '/gulp',
+  tasks: './gulp/',
   config: './gulp.config.js'
 };
 
 module.exports = (_settings = {}) => {
   let settings = _.defaults(_settings, Defaults);
   let tasks = colleqtor.require(settings.tasks);
+  let shorten = (x) => _.map(x, (y) => path.relative('./', y));
   let config;
   try {
     config = require(settings.config);
