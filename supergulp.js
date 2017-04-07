@@ -14,8 +14,8 @@ const Defaults = {
   config: './gulp.config.js'
 };
 
-module.exports = (settings = {}) => {
-  let settings = _.defaults(settings, Defaults);
+module.exports = (_settings = {}) => {
+  let settings = _.defaults(_settings, Defaults);
   let tasks = colleqtor.require(settings.tasks);
   let config;
   try {
