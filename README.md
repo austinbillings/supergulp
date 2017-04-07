@@ -13,12 +13,18 @@ Have you ever had a gulpfile that is way too overstuffed with tasks, logic, and 
 /* file: gulpfile.js */
 const supergulp = require('supergulp');
 supergulp();
+```
 
-// or, with options (the defaults are shown)
-supergulp({
-  tasks: './gulp/',
-  config: './gulp.config.js'
-});
+With custom settings (the defaults are shown)
+```js
+const supergulp = require('supergulp');
+supergulp({ tasks: './gulp/', config: './gulp.config.js' });
+```
+
+Super minimal:
+```js
+// super-minimal:
+require('supergulp')();
 ```
 *Crazy, right? That's all your gulpfile needs to contain.*
 
