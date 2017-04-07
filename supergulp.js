@@ -3,21 +3,26 @@ const gulp = require('gulp');
 const path = require('path');
 const chalk = require('chalk');
 const _ = require('underscore');
+const callsite = require('callsite');
 const colleqtor = require('colleqtor');
 
 const registry = [];
-const Hook = (taskName, watch, set = 'default') => registry.push({ taskName, watch, set });
-
-const Defaults = {
-  tasks: './gulp/',
-  config: './gulp.config.js'
-};
+const hook = (taskName, watch, set = 'default') => registry.push({ taskName, watch, set });
 
 module.exports = (_settings = {}) => {
+  let __root = path.dirname(callsite()[1].getFileName());
+  
+  const Defaults = {
+    tasks: path.join(__root, '/gulp/'),
+    config: './gulp.config.js'
+  };
+  
   let settings = _.defaults(_settings, Defaults);
   let tasks = colleqtor.require(settings.tasks);
-  let shorten = (x) => _.map(x, (y) => path.relative('./', y));
-  let config;
+  
+  let shorten = (x) => _.map(x, (y) => path.relative(__root, y));
+  
+  var config;
   try {
     config = require(settings.config);
   } catch(e) {
@@ -25,7 +30,9 @@ module.exports = (_settings = {}) => {
     config = {};
   }
   
-  for (let taskName in tasks) { tasks[taskName](gulp, config, Hook); }
+  for (let taskName in tasks) {
+    tasks[taskName](gulp, config, hook);
+  }
 
   let setNames = _.uniq(_.flatten(_.pluck(registry, 'set')));
 
