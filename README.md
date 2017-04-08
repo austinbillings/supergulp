@@ -1,4 +1,7 @@
-# Supergulp
+<p align="center">
+  <img src="./logo.png" align="center" alt="Supergulp Logo">
+</p>
+
 Deconstruct your monolithic gulpfile!
 
 ### Introduction
