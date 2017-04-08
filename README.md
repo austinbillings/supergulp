@@ -51,7 +51,7 @@ module.exports = (gulp, config, hook) {
 For these reasons, the hook system came about.
 
 #### The `hook()` system
-1. Simply specify which compound gulp task or "task sets" a task (or set of tasks) should belong to using `hook()`.
+1. Use `hook()` to specify which compound gulp task or "task sets" a task (or set of tasks) should belong to.
   
     Optionally, pass a glob string to "watch" for changes, enabling automatic re-execution.
     
