@@ -89,7 +89,7 @@ module.exports = (gulp, config, hook) {
 }
 ```
 
-Your tasks should be kept as separate javascript files in a directory of your choosing. By default, Supergulp checks the `./gulp` directory based on wherever your gulpfile is.
+Your tasks should be kept as separate javascript files in a directory of your choosing. By default, Supergulp checks the `./gulp` directory relative to your gulpfile.
 
 Every file in the directory should use `module.exports` to export a function that takes the following arguments, and within which you can define one or a million gulp tasks.
 
