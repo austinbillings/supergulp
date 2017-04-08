@@ -44,7 +44,7 @@ module.exports = (gulp, config, hook) {
   gulp.task('export', ['myTask', 'myOtherTask', 'thirdTask']);
 }
 ```
-...but they're discouraged, because of the following:
+...but they're discouraged, because reasons.
 - The other task definitions would need to live in the same file, or...
 - We must rely on the other tasks *always* being present. That's no fun.
 
