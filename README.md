@@ -22,7 +22,7 @@ require('supergulp')();
 Now, each of your gulp tasks has its own `.js` file within `/gulp`. Here's what each basically looks like:
 
 ```js
-module.exports = (gulp, config, hook) {  
+module.exports = (gulp, config, hook) => {  
   // Register your gulp tasks as usual, using the gulp injected to this function
   gulp.task('myTask', () => {
     // whatever you export from 'gulp.config.js' is accessible everywhere!
@@ -36,7 +36,7 @@ module.exports = (gulp, config, hook) {
 ```
 Classic "task sets" (compound tasks) are still fully supported:
 ```js
-module.exports = (gulp, config, hook) {
+module.exports = (gulp, config, hook) => {
   gulp.task('myTask', () => {
     ...
   });
@@ -63,7 +63,7 @@ For these reasons, the hook system came about.
 
 ```js
 /*      In my-task.js      */
-module.exports = (gulp, config, hook) {
+module.exports = (gulp, config, hook) => {
   gulp.task('myTask', () => { 
     ...
   });
@@ -73,7 +73,7 @@ module.exports = (gulp, config, hook) {
 
 /*   ...in other-task.js      */
 
-module.exports = (gulp, config, hook) {
+module.exports = (gulp, config, hook) => {
   gulp.task('otherTask', () => {
     ...
   });
@@ -90,7 +90,7 @@ gulp.task('export', ['myTask', 'otherTask'])
 
 ## Anatomy of a Supergulp file
 ```js
-module.exports = (gulp, config, hook) {
+module.exports = (gulp, config, hook) => {
   gulp.task('whatever', () => {
     ... 
   });
