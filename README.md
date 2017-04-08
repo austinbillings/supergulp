@@ -6,7 +6,107 @@ Deconstruct your monolithic gulpfile!
 npm install supergulp --save
 ```
 
-## Quick Taste
+## Crash Course: Anatomy of a Supergulp task
+
+Your `gulpfile.js` (more about this below):
+```js
+require('supergulp')();
+```
+Now, each of your gulp tasks has its own `.js` file within `/gulp`. Here's what each basically looks like:
+
+```js
+module.exports = (gulp, config, hook) {  
+  // Register your gulp tasks as usual, using the gulp injected to this function
+  gulp.task('myTask', () => {
+    // whatever you export from 'gulp.config.js' is accessible everywhere!
+    // *  This is ES6-style deconstruction notation, by the way.
+    //    Don't be scared, it's super useful.
+    let { output, sources } = config;
+    return gulp.src(sources.app)
+      .pipe(concat(output.appFilename))
+      .pipe(gulp.dest(output.dir));
+  });
+```
+Classic "task sets" (compound tasks) are still fully supported:
+```js
+module.exports = (gulp, config, hook) {
+  gulp.task('myTask', () => {
+    ...
+  });
+  
+  gulp.task('export', ['myTask', 'myOtherTask', 'thirdTask']);
+}
+```
+...but they're discouraged, since either:
+- The other task definitions would need to live in the same file, or...
+- We must rely on the other tasks *always* being present. That's no fun. Then, the hook system came about.
+
+#### The `hook()` system
+1. Simply specify which compound gulp task or "task sets" a task (or set of tasks) should belong to.
+  
+    Optionally, pass a glob string to "watch" for changes, enabling automatic re-execution.
+    
+2. All hooks are collected together to form compound tasks.
+    
+    This helps to avoid compound task definitions needing to reference a task in a separate file, and they can be moved from project-to-project without fear.
+    Compound tasks in this manner should be considered 'abstract', so **do not attempt to hook into a task which is already defined**. A warning will be given and the hook will not be established.
+
+```js
+/*      In my-task.js      */
+module.exports = (gulp, config, hook) {
+  gulp.task('myTask', () => { 
+    ...
+  });
+  
+  hook('myTask', null, 'export');
+}
+
+/*   ...in other-task.js      */
+
+module.exports = (gulp, config, hook) {
+  gulp.task('otherTask', () => {
+    ...
+  });
+  
+  hook('otherTask', null, 'export');
+}
+```
+
+The above is the equivalent of...
+```js
+gulp.task('export', ['myTask', 'otherTask'])
+```
+...but decentralized and without any assumptions that both tasks exist.
+
+## Anatomy of a Supergulp file
+```js
+module.exports = (gulp, config, hook) {
+  gulp.task('whatever', () => {
+    ... 
+  });
+}
+```
+
+Your tasks should be kept as separate javascript files in a directory of your choosing. By default, supergulp checks the `./gulp` directory based on wherever your gulpfile is.
+
+Every file in the directory should use `module.exports` to export a function that takes the following arguments, and within which you can define one or a million gulp tasks.
+
+|Parameter|Description|Tips|
+|:---|:---|:---
+|`gulp`|The gulp instance shared by all defined supergulp tasks.|Be sure **not** to `require('gulp')`. Use this instead.|
+|`config`|Optional, but useful: a global configuration object of your design, which is exported by your config file (default: `./gulp.config.js`).|Use a consistent config structure between projects for maximum task portability.|
+|`hook`|A function which allows you to "hook" tasks into "task sets", for instance into your "default" gulp task.| |
+
+
+`hook` itself is used a function that takes three arguments:
+
+|Parameter|Description|Tips|
+|:---|:---|:---
+|`taskName`|A string or array of strings indicating the task(s) to be "hooked".|
+|`watch`|A glob pattern to "watch" and re-fire the given tasks when files are changed. Defaults to `null`, in which case no watchers are set up.|It's easiest to provide the same glob you'd use in `gulp.src()` if you want to watch for changes.
+|`set`|The name of a compound task (a string) or tasks (an array) to "hook" into. Defaults to the 'default' task. | Compound tasks should not be explicitly declared with `gulp.task`, but are generated automatically by Supergulp.
+
+## Sample App Setup
 Have you ever ended up with a **gulpfile.js** way too overstuffed with tasks, logic, and configuration?
 
 Enter *Supergulp*, the tool that takes Gulp through a new paradigm. The idea is to break your gulp task logic into distinct javascript files each with only the dependencies they need, and without worrying about input or output configuration. You provide a configuration file path, and supergulp injects the configuration into each task it finds in the '/gulp' directory. Suddenly, all your gulp tasks and pipelines are more portable, easier to understand and debug, and less reliant on baked-in configuration. **Let's get cookin'.**
@@ -32,7 +132,7 @@ const supergulp = require('supergulp');
 supergulp();
 ```
 
-With custom settings (the defaults are shown)
+With custom settings (the defaults are shown):
 ```js
 /* file: gulpfile.js */
 const supergulp = require('supergulp');
@@ -121,13 +221,3 @@ module.exports = (gulp, config, hook) => {
 ```
 
 Following these examples, we are able to run `gulp`, and both the 'compile-sass' and 'build-app' tasks run. Additionally, a watcher is setup on their source files and they are recompiled to our output directory when saved. We can also run 'gulp styles', which will build our sass files, and watch the sources. If we run 'gulp build', our sass files are compiled but the sources are not watched. 
-
-## Getting started
-
-First, your gulp tasks should be kept as separate javascript files in a directory of your choosing. By default, supergulp uses the `./gulp` directory based on wherever your gulpfile is. Each file containing a gulp task should use `module.exports` to export a function that takes the following arguments:
-- `gulp`, (required) the same instance of gulp that is passed to all the task files (Be sure **not** to `require('gulp')`)
-- `config`, (optional, but recommended) a global configuration object of your design, which is exported by your config file (default: './gulp.config.js')
-- `hook`, (optional) a function which allows you to "hook" tasks into "task sets", for instance into your "default" gulp task. `hook` itself is a function that takes three arguments:
-  - `taskName`, a string or array of strings indicating the already-declared task to be "hooked",
-  - `watch`, a glob pattern to "watch" and re-fire the given tasks when files are changed (default: `null`)
-  - `set`, the name of the parent task/set of tasks to hook into. (default: `'default'`) Note that "sets" of tasks should not be explicitly declared with `gulp.task`, but are generated automatically by supergulp.

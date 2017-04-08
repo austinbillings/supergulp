@@ -41,6 +41,8 @@ module.exports = (_settings = {}) => {
     let taskList = _.uniq(_.flatten(_.pluck(tasks, 'taskName')));
     let watchables = _.filter(tasks, task => task.watch);
     
+    if (gulp.task(setName)) return zaq.warn(`Attempted to create compound task from existing task: ${chalk.yellow(setName)}`)
+    
     gulp.task(setName, taskList, () => {
       watchables.forEach(watchable => {
         zaq.info(`${chalk.cyan(watchable.taskName)} is watching ${chalk.dim(shorten(watchable.watch))}. . .`);
