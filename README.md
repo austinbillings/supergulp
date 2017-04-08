@@ -58,7 +58,7 @@ For these reasons, the hook system came about.
 2. All hooks are collected together to form compound tasks.
     
     This helps to avoid compound task definitions needing to reference a task in a separate file, and they can be moved from project-to-project without fear.
-    Compound tasks in this manner should be considered 'abstract', so **do not attempt to hook into a task which is already defined**. A warning will be given and the hook will not be established.
+    Compound tasks in this manner should be considered *abstract*, so **do not attempt to hook into a task which is already defined**. A warning will be given and the hook will not be established.
 
 ```js
 /*      In my-task.js      */
