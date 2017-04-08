@@ -86,7 +86,7 @@ The above is the equivalent of...
 ```js
 gulp.task('export', ['myTask', 'otherTask'])
 ```
-...but decentralized and without any assumptions that both tasks exist.
+...but decentralized, and without any assumptions that both tasks exist.
 
 ## Anatomy of a Supergulp file
 ```js
