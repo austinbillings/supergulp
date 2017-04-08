@@ -11,6 +11,21 @@ Have you ever ended up with a **gulpfile.js** way too overstuffed with tasks, lo
 
 Enter *Supergulp*, the tool that takes Gulp through a new paradigm. The idea is to break your gulp task logic into distinct javascript files each with only the dependencies they need, and without worrying about input or output configuration. You provide a configuration file path, and supergulp injects the configuration into each task it finds in the '/gulp' directory. Suddenly, all your gulp tasks and pipelines are more portable, easier to understand and debug, and less reliant on baked-in configuration. **Let's get cookin'.**
 
+Here's the file structure of our imaginary demonstration app:
+```
+├── dist
+├── gulp
+│   ├── build-app.js
+│   └── compile-sass.js
+├── node_modules
+│   └── [...]
+├── gulp.config.js
+├── gulpfile.js
+└── package.json
+```
+
+Let's start with **gulpfile.js**.
+
 ```js
 /* file: gulpfile.js */
 const supergulp = require('supergulp');
@@ -58,7 +73,7 @@ module.exports = {
 In our imaginary project here, we also have a **/gulp** directory, which contains the files `build-app.js` and `compile-sass.js`. Each of these contains a single gulp task, setup to take our configuration from the above file and perform tasks.
 
 ```js
-/* file: build-app.js */
+/* file: /gulp/build-app.js */
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
@@ -69,10 +84,11 @@ module.exports = (gulp, config, hook) => {
       .pipe(concat(config.output.filenames.app))
       .pipe(gulp.dest(config.output.dir));
   }
-  // now we can run "gulp build-app" as expected.
-  // Also, let's hook this task into our "default" task set as well,
-  // including a source file watcher that will recompile on save. 
-  // The second argument specifies the watcher glob.
+```
+
+Now we can run "gulp build-app" and our app files will get concatenated and put in `/dist` as expected. et's hook this task into our "default" task set as well, including a source file watcher that will recompile on save. The second argument specifies the watcher glob.
+
+```js
   hook('build-app', config.sources.app);
 }
 ```
@@ -80,7 +96,7 @@ module.exports = (gulp, config, hook) => {
 Another example:
 
 ```js
-/* file: compile-sass.js */
+/* file: /gulp/compile-sass.js */
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglifycss');
@@ -93,12 +109,13 @@ module.exports = (gulp, config, hook) => {
       .pipe(uglify())
       .pipe(gulp.dest(config.output.dir));
   });
-  // This time, let's hook the 'compile-sass' task into BOTH
-  // the 'default' set AND a new 'styles' task set.
+```
+  This time, let's hook the 'compile-sass' task into BOTH the 'default' set AND a new 'styles' task set.
+```js
   hook('compile-sass', config.sources.sass, ['default', 'styles']);
-  // Let's also hook this task into a new set, 'build', without running a watcher
-  // on the source files. This way, when running 'gulp build', the files will be built
-  // and the task will complete immediately, and not run indefinitely.
+```
+  Let's also hook this task into a new set, 'build', without running a watcher on the source files. This way, when running 'gulp build', the files will be built and the task will complete immediately, and not run indefinitely.
+```js
   hook('compile-sass', null, 'build');
 }
 ```
