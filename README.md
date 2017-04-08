@@ -39,7 +39,9 @@ module.exports = (gulp, config, hook) {
 ```
 ...but they're discouraged, because of the following:
 - The other task definitions would need to live in the same file, or...
-- We must rely on the other tasks *always* being present. That's no fun. Then, the hook system came about.
+- We must rely on the other tasks *always* being present. That's no fun.
+
+For these reasons, the hook system came about.
 
 #### The `hook()` system
 1. Simply specify which compound gulp task or "task sets" a task (or set of tasks) should belong to.
