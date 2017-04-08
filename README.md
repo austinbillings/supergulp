@@ -86,7 +86,7 @@ module.exports = (gulp, config, hook) => {
   }
 ```
 
-Now we can run "gulp build-app" and our app files will get concatenated and put in `/dist` as expected. et's hook this task into our "default" task set as well, including a source file watcher that will recompile on save. The second argument specifies the watcher glob.
+Now we can run "gulp build-app" and our app files will get concatenated and put in `/dist` as expected. Let's hook this task into our "default" task set as well, including a source file watcher that will recompile on save. The second argument specifies the watcher glob.
 
 ```js
   hook('build-app', config.sources.app);
