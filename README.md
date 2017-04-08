@@ -95,7 +95,7 @@ Every file in the directory should use `module.exports` to export a function tha
 
 |Parameter|Description|Tips|
 |:---|:---|:---
-|`gulp`|The gulp instance shared by all defined supergulp tasks.|Be sure **not** to `require('gulp')`. Use this instead.|
+|`gulp`|The gulp instance shared by all defined Supergulp tasks.|Be sure **not** to `require('gulp')`. Use this instead.|
 |`config`|Optional, but useful: a global configuration object of your design, which is exported by your config file (default: `./gulp.config.js`).|Use a consistent config structure between projects for maximum task portability.|
 |`hook`|A function which allows you to "hook" tasks into "task sets", for instance into your "default" gulp task.| |
 
