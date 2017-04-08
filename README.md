@@ -4,7 +4,7 @@ Deconstruct your monolithic gulpfile!
 ### Introduction
 Have you ever ended up with a **gulpfile.js** way too overstuffed with tasks, logic, and configuration?
 
-Enter *Supergulp*, the tool that takes Gulp through a new paradigm. The idea is to break your gulp task logic into distinct javascript files each with only the dependencies they need, and without worrying about input or output configuration. You provide a configuration file path, and supergulp injects the configuration into each task it finds in the '/gulp' directory. Suddenly, all your gulp tasks and pipelines are more portable, easier to understand and debug, and less reliant on baked-in configuration. **Let's get cookin'.**
+Enter *Supergulp*, the tool that takes Gulp through a new paradigm. Break your gulp task logic into distinct javascript files each self-contained and lightweight, and without worrying about your configuration being ripped across 20 different scripts. You provide one configuration file, and Supergulp injects the configuration into each task it finds in the '/gulp' directory. Suddenly, all your gulp tasks and pipelines are more portable, easier to understand and debug, and less reliant on baked-in configuration. **Let's get cookin'.**
 
 ---
 
