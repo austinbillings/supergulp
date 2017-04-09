@@ -46,7 +46,7 @@ const Supergulp = function (options = {}) {
   
   
   let config = {};
-  try { config = require(let settings.config); } 
+  try { config = require(settings.config); } 
   catch (e) { return zaq.err(`Couldn't read Supergulp config @${chalk.italic(settings.config)}`); }
   
   config.ensure = (prop) => {
