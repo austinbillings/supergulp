@@ -36,8 +36,8 @@ const Supergulp = function (options = {}) {
   let root = path.dirname(callsite()[1].getFileName());
   
   let defaults = {
-    tasks: path.join(this.root, '/gulp/'),
-    config: path.join(this.root, '/gulp.config.js')
+    tasks: path.join(root, '/gulp/'),
+    config: path.join(root, '/gulp.config.js')
   };
   
   let settings = _.defaults(options, defaults);
