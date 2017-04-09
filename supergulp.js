@@ -34,16 +34,23 @@ class Sg {
 
 const Supergulp = function (options = {}) {
   let root = path.dirname(callsite()[1].getFileName());
+  
+  let defaults = {
+    tasks: path.join(this.root, '/gulp/'),
+    config: path.join(this.root, '/gulp.config.js')
+  };
+  
   let settings = _.defaults(options, defaults);
+  
   let taskFiles = colleqtor.require(settings.tasks);
   
   let hook = (task, watch, set = 'default') => {
     return registry.push({ task, watch, set });
   };
+  
   let shorten = (x) => {
     return _.map(x, (y) => path.relative(root, y));
   };
-  
   
   let config = {};
   try { config = require(settings.config); } 
