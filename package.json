@@ -1,6 +1,6 @@
 {
   "name": "supergulp",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Organize, separate, and decouple your gulptasks from your configuration.",
   "main": "supergulp.js",
   "scripts": {
