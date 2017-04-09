@@ -58,7 +58,7 @@ const Supergulp = function (options = {}) {
   
   config.ensure = (prop) => {
     if (!jawn.hath(config, prop)) {
-      zaq.warn(`Missing config value: ${chalk.dim.yellow(prop)} in ${chalk.dim.yellow(settings.configs)}`);
+      zaq.warn(`Missing config value: ${chalk.dim.yellow(prop)} in ${chalk.dim.yellow(settings.config)}`);
       return false;
     }
     return true;
