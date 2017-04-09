@@ -6,48 +6,79 @@ const _ = require('underscore');
 const callsite = require('callsite');
 const colleqtor = require('colleqtor');
 
-const registry = [];
-const hook = (taskName, watch, set = 'default') => registry.push({ taskName, watch, set });
-
-module.exports = (_settings = {}) => {
-  let __root = path.dirname(callsite()[1].getFileName());
+/*
+class Sg {
+  constructor (options) {
+    this.root = path.dirname(callsite()[1].getFileName());
+    this.settings = this.getSettings(options);
+    
+  }
   
-  const Defaults = {
-    tasks: path.join(__root, '/gulp/'),
-    config: path.join(__root, '/gulp.config.js')
+  getSettings (optios) {
+    return _.defaults(options, this.defaults());
+  }
+  
+  get registry () { return this._registry; }
+  set registry (registry) {
+    this._registry = registry;
+  }
+  
+  defaults () {
+    return {
+      tasks: path.join(this.root, '/gulp/'),
+      config: path.join(this.root, '/gulp.config.js')
+    }
+  }
+}
+*/
+
+const Supergulp = function (options = {}) {
+  let root = path.dirname(callsite()[1].getFileName());
+  let settings = _.defaults(options, defaults);
+  let taskFiles = colleqtor.require(settings.tasks);
+  
+  let hook = (task, watch, set = 'default') => {
+    return registry.push({ task, watch, set });
+  };
+  let shorten = (x) => {
+    return _.map(x, (y) => path.relative(root, y));
   };
   
-  let settings = _.defaults(_settings, Defaults);
-  let tasks = colleqtor.require(settings.tasks);
   
-  let shorten = (x) => _.map(x, (y) => path.relative(__root, y));
+  let config = {};
+  try { config = require(let settings.config); } 
+  catch (e) { return zaq.err(`Couldn't read Supergulp config @${chalk.italic(settings.config)}`); }
   
-  var config;
-  try {
-    config = require(settings.config);
-  } catch(e) {
-    zaq.err(`Supergulp err: couldn't read config file at: ${chalk.italic(settings.config)}`);
-    config = {};
+  config.ensure = (prop) => {
+    if (!jawn.hath(config, prop)) {
+      zaq.warn(`Missing config value: ${chalk.dim.yellow(prop)} in ${chalk.dim.yellow(settings.configs)}`);
+      return false;
+    }
+    return true;
   }
   
-  for (let taskName in tasks) {
-    tasks[taskName](gulp, config, hook);
+  for (let taskName in taskFiles) {
+    taskFiles[taskName](gulp, config, hook, root);
   }
 
-  let setNames = _.uniq(_.flatten(_.pluck(registry, 'set')));
-
-  setNames.forEach(setName => {
-    let tasks = _.filter(registry, item => item.set === setName || _.contains(item.set, setName));
-    let taskList = _.uniq(_.flatten(_.pluck(tasks, 'taskName')));
-    let watchables = _.filter(tasks, task => task.watch);
+  let compounds = _.uniq(_.flatten(_.pluck(registry, 'set')));
+  _.each(compounds, setName => {
+    let subTasks = _.filter(registry, item => item.set === setName || _.contains(item.set, setName));
+    let subTaskList = _.uniq(_.flatten(_.pluck(subTasks, 'taskName')));
+    let watchables = _.filter(subTasks, task => task.watch);
     
-    if (gulp.task(setName)) return zaq.warn(`Attempted to create compound task from existing task: ${chalk.yellow(setName)}`)
+    if (gulp.task(setName)) {
+      return zaq.warn(`Attempted to create compound task from existing task: ${chalk.yellow(setName)}`);
+    };
     
-    gulp.task(setName, taskList, () => {
+    gulp.task(setName, subTaskList, () => {
       watchables.forEach(watchable => {
         zaq.info(`${chalk.cyan(watchable.taskName)} is watching ${chalk.dim(shorten(watchable.watch))}. . .`);
-        gulp.watch(watchable.watch, _.isArray(watchable.taskName) ? watchable.taskName : [ watchable.taskName ]);
+        gulp.watch(watchable.watch, watchable.taskName);
       })
-    })
+    });
+    
   });
 }
+
+module.exports = Supergulp;
