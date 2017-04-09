@@ -6,32 +6,6 @@ const _ = require('underscore');
 const callsite = require('callsite');
 const colleqtor = require('colleqtor');
 
-/*
-class Sg {
-  constructor (options) {
-    this.root = path.dirname(callsite()[1].getFileName());
-    this.settings = this.getSettings(options);
-    
-  }
-  
-  getSettings (optios) {
-    return _.defaults(options, this.defaults());
-  }
-  
-  get registry () { return this._registry; }
-  set registry (registry) {
-    this._registry = registry;
-  }
-  
-  defaults () {
-    return {
-      tasks: path.join(this.root, '/gulp/'),
-      config: path.join(this.root, '/gulp.config.js')
-    }
-  }
-}
-*/
-
 const Supergulp = function (options = {}) {
   let root = path.dirname(callsite()[1].getFileName());
   
